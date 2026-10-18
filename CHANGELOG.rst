@@ -4,6 +4,56 @@ Community Windows Release Notes
 
 .. contents:: Topics
 
+v3.3.0
+======
+
+Release Summary
+---------------
+
+Release summary for v3.3.0
+
+Minor Changes
+-------------
+
+- community.windows.win_psmodule_info - Added ``include_properties`` parameter to allow fine-grained control over which module properties are returned, improving performance when only specific properties are needed (https://github.com/ansible-collections/community.windows/pull/688).
+- community.windows.win_psmodule_info - Added ``skip_module_repository_info`` parameter to skips querying PowerShellGet for repository-related metadata (https://github.com/ansible-collections/community.windows/pull/688).
+- community.windows.win_psmodule_info - Automatically skips expensive PowerShellGet repository lookups when ``include_properties`` is specified without repository-related properties (https://github.com/ansible-collections/community.windows/pull/688).
+
+Bugfixes
+--------
+
+- community.windows.win_psmodule - Now retrieves module installation status of requested module instead of all modules, which was expensive for hosts with many modules installed (https://github.com/ansible-collections/community.windows/pull/688).
+- community.windows.win_psmodule_info - Fixed typo in documentation changing ``procoessor_architecture`` to ``processor_architecture`` (https://github.com/ansible-collections/community.windows/pull/688).
+- laps_password - Migrate away from deprecated ``to_text`` methods to the new public API.
+- psexec - Migrate away from deprecated ``to_text`` methods to the new public API.
+- win_scheduled_task - Fix issue when creating a new scheduled task when using ``become_user: SYSTEM`` - https://github.com/ansible-collections/community.windows/issues/633
+
+v3.2.0
+======
+
+Release Summary
+---------------
+
+Release summary for v3.2.0
+
+Minor Changes
+-------------
+
+- PowerShell 7 - Add initial support for running modules against PowerShell 7 interpreters. Support for PowerShell 7 varies across each module, see module documentation for more information.
+- win_unzip - Use ``tar.exe`` from ``%SystemRoot%\System32`` on Windows 10 build 17063 and later and Windows Server 2019 and later to extract tar-based archives (``.tar``, ``.tar.gz``/``.tgz``, ``.tar.bz2``/``.tbz2``, ``.tar.xz``/``.txz``) without requiring PSCX. On older systems where ``tar.exe`` is not available, PSCX remains the fallback. PSCX is still required for passwords, recursive extraction, and non-tar formats other than ``.zip``.
+- win_xml - add new option ``content`` to be able to return the content of nodes (https://github.com/ansible-collections/community.windows/issues/54).
+
+Bugfixes
+--------
+
+- win_psrepository_copy - handle profiles with no ProfileImagePath (https://github.com/ansible-collections/community.windows/issues/604).
+- win_pssession_configuration - Fix compatibility with Ansible 2.21.
+- win_pssession_configuration - Fix type errors for parameters passed in New-PSSessionConfigurationFile
+- win_regmerge - Ensure ``reg.exe`` uses the absolute location ``C:\Windows\Systme32\reg.exe``. This ensures that misconfigured hosts won't use a different executable.
+- win_unzip - Use ``-LiteralPath`` when calling PSCX ``Expand-Archive`` so paths containing PowerShell wildcard characters (e.g. ``[``, ``]``) are not glob-expanded and silently resolved to an empty array.
+- win_xml - allow users to preserve whitespace while updating XML file (https://github.com/ansible-collections/community.windows/issues/210).
+- win_xml - handle attribute removal correctly (https://github.com/ansible-collections/community.windows/issues/631).
+
 v3.1.0
 ======
 
